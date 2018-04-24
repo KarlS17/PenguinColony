@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.FieldPosition;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +58,7 @@ public class GamePage extends AppCompatActivity {
     Random rand = new Random();
 
 
+    //dialog
     public void showDialog() {
         int mStackLevel=1;
         mStackLevel++;
@@ -213,9 +215,18 @@ public class GamePage extends AppCompatActivity {
     public void changePos(){
 
         //Makes the penguin move up
+        //Also moves it side to side from each reset process
         penguinUpY -=3;//Controls speed of penguin, originally at 10
-        if (penguinImage.getY() + penguinImage.getHeight() <0){
-            penguinUpX = 10; //(float)Math.floor(Math.random() * (screenWidth - penguinImage.getWidth())); The 10 keeps the penguin in the position and not random, find out a way to make it more dynamic
+        // x speed will be faster or slower based off of the number of pingus
+        if (PinguLibrary.getNumOfPingus() >= 20) {
+            penguinUpX -= rand.nextInt(5) + 3;
+        }
+        else{
+            penguinUpX -= rand.nextInt(2) + 1;
+        }
+        //the reset position
+        if (penguinImage.getY() + penguinImage.getHeight() <= penguinUpY){
+            penguinUpX = PinguLibrary.getPosition() + rand.nextInt(150) + 10; //The 10 keeps the penguin in the position and not random, find out a way to make it more dynamic
             penguinUpY = screenHieght + 100;
         }
 
@@ -223,10 +234,13 @@ public class GamePage extends AppCompatActivity {
         penguinImage.setX((float)penguinUpX);
         penguinImage.setY((float)penguinUpY);
 
-        //Supposed to go down, not final yet
-        if(penguinImage.getHeight() >= (penguinImage.getY()/3)){
-
-
+        //Controls where the penguin will reset on the screen y axis
+        if(penguinImage.getHeight() >= (penguinImage.getY()/6.3)){
+            penguinUpY = screenHieght + 100;
+        }
+        //Controls where the penguin will reset on the screens x axis
+        if(penguinImage.getWidth() >= (penguinImage.getX()/.2)){
+            penguinUpX = screenWidth - screenWidth/1.9;
         }
     }
 }
