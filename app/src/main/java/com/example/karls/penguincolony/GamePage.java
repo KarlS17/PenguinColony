@@ -217,8 +217,16 @@ public class GamePage extends AppCompatActivity {
         //Makes the penguin move up
         //Also moves it side to side from each reset process
         penguinUpY -=3;//Controls speed of penguin, originally at 10
+        // x speed will be faster or slower based off of the number of pingus
+        if (PinguLibrary.getNumOfPingus() >= 20) {
+            penguinUpX -= rand.nextInt(5) + 3;
+        }
+        else{
+            penguinUpX -= rand.nextInt(2) + 1;
+        }
+        //the reset position
         if (penguinImage.getY() + penguinImage.getHeight() <= penguinUpY){
-            penguinUpX = PinguLibrary.getPosition() + rand.nextInt(250) + 10; //The 10 keeps the penguin in the position and not random, find out a way to make it more dynamic
+            penguinUpX = PinguLibrary.getPosition() + rand.nextInt(150) + 10; //The 10 keeps the penguin in the position and not random, find out a way to make it more dynamic
             penguinUpY = screenHieght + 100;
         }
 
@@ -226,11 +234,13 @@ public class GamePage extends AppCompatActivity {
         penguinImage.setX((float)penguinUpX);
         penguinImage.setY((float)penguinUpY);
 
-        //Controls where the penguin will reset on the screen
-        if(penguinImage.getHeight() >= (penguinImage.getY()/7)){
+        //Controls where the penguin will reset on the screen y axis
+        if(penguinImage.getHeight() >= (penguinImage.getY()/6.3)){
             penguinUpY = screenHieght + 100;
-
+        }
+        //Controls where the penguin will reset on the screens x axis
+        if(penguinImage.getWidth() >= (penguinImage.getX()/.2)){
+            penguinUpX = screenWidth - screenWidth/1.9;
         }
     }
 }
-//

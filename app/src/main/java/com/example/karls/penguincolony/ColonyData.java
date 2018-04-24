@@ -14,7 +14,7 @@ public class ColonyData {
 
 
     public ColonyData() {
-        this.numOfPingus = 10;
+        this.numOfPingus = 20;
         this.food = 5;
         this.day = 0;
 
